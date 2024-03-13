@@ -1,8 +1,5 @@
 package org.myoralvillage.cashcalculator.tutorials;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.util.Pair;
-
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -18,9 +15,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
+
 import org.myoralvillage.cashcalculator.MainActivity;
 import org.myoralvillage.cashcalculator.R;
-import org.myoralvillage.cashcalculator.TutorialActivity;
 import org.myoralvillage.cashcalculator.config.CashCalculatorConstants;
 import org.myoralvillage.cashcalculatormodule.fragments.CashCalculatorFragment;
 import org.myoralvillage.cashcalculatormodule.models.CurrencyModel;
@@ -30,12 +29,11 @@ import org.myoralvillage.cashcalculatormodule.views.CountingTableView;
 import org.myoralvillage.cashcalculatormodule.views.CurrencyScrollbarView;
 import org.myoralvillage.cashcalculatormodule.views.NumberPadView;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class AdvancedVideoActivity extends AppCompatActivity {
+public class ZeroVideoActivity_5 extends AppCompatActivity implements View.OnClickListener  {
     private CashCalculatorFragment fragment;
     private CountingTableView countingTable;
     private CurrencyScrollbarView currencyScrollbar;
@@ -62,6 +60,7 @@ public class AdvancedVideoActivity extends AppCompatActivity {
     private String currencyName;
     private boolean numericMode;
 
+    private String pageNumber;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +69,7 @@ public class AdvancedVideoActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_animations);
+//        pageNumber = getIntent().getStringExtra("pageNumber");
         currencyName = getIntent().getStringExtra("currencyName");
         numericMode = getIntent().getBooleanExtra("numericMode", false);
         fragment = (CashCalculatorFragment) getSupportFragmentManager()
@@ -93,6 +93,8 @@ public class AdvancedVideoActivity extends AppCompatActivity {
         scrollbarLocation = new int[2];
         finger = findViewById(R.id.finger);
         black = findViewById(R.id.black_view);
+
+
         ViewTreeObserver vto = currencyScrollbar.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -101,9 +103,39 @@ public class AdvancedVideoActivity extends AppCompatActivity {
                 currencyScrollbar.getViewTreeObserver().removeGlobalOnLayoutListener(this);
             }
         });
+
+//        ImageView gototutorial = (ImageView) findViewById(R.id.gototutorial);
+//        gototutorial.setOnClickListener(this);
+//        gototutorial.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                Toast.makeText(getApplicationContext(),"Hello Javatpoint",Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.gototutorial:
+                switchtoTutorial();
+                break;
+        }
+    }
+
+    private void switchtoTutorial() {
+//        System.out.println("Test here");
+//        Intent intent = new Intent(this, TutorialActivity.class);
+//        intent.putExtra("currencyCode", currencyName);
+//        intent.putExtra("numericMode", getIntent().getBooleanExtra("numericMode", false));
+//        startActivity(intent);
+//        finish();
+        runExit();
+    }
     long enterTime = 0, exitTime = 0;
     @Override
     protected void onStart() {
@@ -119,7 +151,7 @@ public class AdvancedVideoActivity extends AppCompatActivity {
         AnalyticsLogger.logEventwithParams(this,
                 AnalyticsLogger.EVENT_VIDEO_VIEWED,
                 new Pair<String, String>(AnalyticsLogger.PARAM_VIDEO_NAME,
-                        AnalyticsLogger.VAL_VIDEO_ADVANCED),
+                        AnalyticsLogger.VAL_VIDEO_INTRO),
                 new Pair<String, String>(AnalyticsLogger.PARAM_VIDEO_DURATION_SECONDS,
                         ""+durationSeconds));
         super.onStop();
@@ -132,159 +164,46 @@ public class AdvancedVideoActivity extends AppCompatActivity {
         getFadeOut(finger, 0).start();
         getFadeOut(black, 0).start();
         if (usesDecimal()) {
-            switch (getIntent().getIntExtra("animationStage", 0)) {
-                case 0:
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-8);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToSubtraction();
-                    break;
-                case 1:
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-6);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToAddition();
-                    break;
-                case 2:
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-5);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-4);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runCalculate();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runEnterHistory();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runPrev();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runClear();
-
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-8);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-7);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToSubtraction();
-                    break;
-                case 3:
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-6);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-5);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runCalculate();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToAddition();
-                    break;
-                case 4:
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-5);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-4);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runCalculate();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runClear();
-
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-9);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-8);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToAddition();
-                    break;
-                case 5:
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-7);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-5);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runCalculate();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToMultiplication();
-                    break;
-                case 6:
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-4);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runCalculate();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runEnterHistory();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-6);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runClear();
-
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-8);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToAddition();
-                    break;
-                case 7:
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-7);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runCalculate();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToAddition();
-                    break;
-                case 8:
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-6);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runCalculate();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToMultiplication();
-                    break;
-                case 9:
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-5);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runCalculate();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToSubtraction();
-                    break;
-                case 10:
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-8);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runCalculate();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runEnterHistory();
-//                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-//                    runRemoveDenomination();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-9);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runClear();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
+            switch (getIntent().getIntExtra("animationStage", 0)) { //tells you what level of tutorial we are at
+                case 0: //demonstrating putting notes on table
                     wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runAddDenomination(-9);
+                    wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runRemoveDenomination();
+                    wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runAddDenomination(-6);
+                    wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runRemoveDenomination();
+                    wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runFadeOutAndIn();
+                    wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runAddDenomination(-7);
+                    wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runSwitchToAddition();
+                    break;
+                case 1: // demonstrating addition
+                    wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runAddDenomination(-6);
+                    wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runCalculate();
+                    wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runClear();
+                    wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runFadeOutAndIn();
+                    wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runAddDenomination(-9);
+                    wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runSwitchToSubtraction();
+                    break;
+                case 2: //..and so on
+                    wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runAddDenomination(-7);
+                    wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runAddDenomination(-7);
+                    wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runCalculate();
+                    wait(CashCalculatorConstants.INTRO_VIDEO_WAIT_TIME);
+                    runClear();
                     runExit();
             }
         }
@@ -292,114 +211,45 @@ public class AdvancedVideoActivity extends AppCompatActivity {
             switch (getIntent().getIntExtra("animationStage", 0)) {
                 case 0:
                     wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-9);
+                    runAddDenomination(-7);
                     wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToSubtraction();
+                    runAddDenomination(-6);
+                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
+                    runSwitchToAddition();
                     break;
                 case 1:
                     wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-8);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToAddition();
-                    break;
-                case 2:
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-7);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-7);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runCalculate();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runEnterHistory();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runPrev();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runClear();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runFadeOutAndIn();
-                    wait(1500);
-                    runAddDenomination(-7);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToAddition();
-                    break;
-                case 3:
-                    wait(1500);
-                    runAddDenomination(-6);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToMultiplication();
-                    break;
-                case 4:
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-2);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runCalculate();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runEnterHistory();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-7);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runClear();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runFadeOutAndIn();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-6);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToAddition();
-                    break;
-                case 5:
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
                     runAddDenomination(-5);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToAddition();
-                    break;
-                case 6:
                     wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
                     runAddDenomination(-4);
                     wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToMultiplication();
-                    break;
-                case 7:
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-3);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runSwitchToSubtraction();
-                    break;
-                case 8:
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runAddDenomination(-6);
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
                     runCalculate();
                     wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
+                    runClear();
+
+                    //change hand pointer to double
+                    changeFinger(elapsed+50,false);
+//                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
+//                    finger.setImageResource(R.drawable.pointing_two_hand);
+
+                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
+                    runSwitchToMemory();
+
+                    //change hand pointer to single
+//                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
+//                    finger.setImageResource(R.drawable.pointing_hand3);
+                    changeFinger(elapsed+50,true);
+
+                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
                     runEnterHistory();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runRemoveDenomination();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
-                    runNext();
+
+
                     wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
                     runNext();
                     wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
                     runNext();
                     wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
                     runClear();
-                    wait(CashCalculatorConstants.ADV_VIDEO_WAIT_TIME);
                     runExit();
             }
         }
@@ -408,25 +258,56 @@ public class AdvancedVideoActivity extends AppCompatActivity {
         set.start();
     }
 
+    private void changeFinger(int time, boolean single) {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                makeCurrencyChange(single);
+            }
+        }, time);
+    }
+    public void makeCurrencyChange(boolean singleFinger) {
+        if(singleFinger){
+            finger.setImageResource(R.drawable.pointing_half_hand);
+        }
+        else{
+            finger.setImageResource(R.drawable.pointing_half_two_hand);
+        }
+    }
+    private void runSwitchToMemory() {
+        animateSwipe(0, height / 4, width - finger.getWidth(), height / 4, elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME_CALC);
+        elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME_CALC;;
+        changeToMemory(elapsed);
+    }
+    private void changeToMemory(int time) {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                countingTable.getListener().onMemorySwipe(true);
+            }
+        }, time);
+    }
     private void runAddDenomination(int denominationIndex) {
         denominationIndex = (denominationIndex % numDenominations + numDenominations) % numDenominations;
         if (denominationIndex < numDenominations - 1 && horizontalOffsets.get(denominationIndex) <= width / 2) {
             runScrollBarScroll(0);
-            elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
-            animateFingerTap(horizontalOffsets.get(denominationIndex), scrollbarLocation[1] + verticalOffsets.get(denominationIndex), elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME);
-            elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
+            elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;
+            animateFingerTap(horizontalOffsets.get(denominationIndex), scrollbarLocation[1] + verticalOffsets.get(denominationIndex), elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME);
+            elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;;
             addDenomination(denominationIndex, elapsed);
         } else if (denominationIndex > 1 && scrollbarWidth - horizontalOffsets.get(denominationIndex) <= width / 2) {
             runScrollBarScroll(scrollbarWidth - width);
-            elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
-            animateFingerTap(width - scrollbarWidth + horizontalOffsets.get(denominationIndex), scrollbarLocation[1] + verticalOffsets.get(denominationIndex), elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME);
-            elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
+            elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;;
+            animateFingerTap(width - scrollbarWidth + horizontalOffsets.get(denominationIndex), scrollbarLocation[1] + verticalOffsets.get(denominationIndex), elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME);
+            elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;;
             addDenomination(denominationIndex, elapsed);
         } else {
             runScrollBarScroll(horizontalOffsets.get(denominationIndex) - width / 2);
-            elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
-            animateFingerTap(width / 2, scrollbarLocation[1] + verticalOffsets.get(denominationIndex), elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME);
-            elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
+            elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;;
+            animateFingerTap(width / 2, scrollbarLocation[1] + verticalOffsets.get(denominationIndex), elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME);
+            elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;;
             addDenomination(denominationIndex, elapsed);
         }
     }
@@ -440,20 +321,20 @@ public class AdvancedVideoActivity extends AppCompatActivity {
         }
         int imaginaryScrollPosition = scrollbarScrollPosition;
         if (destX > imaginaryScrollPosition) {
-            animateSwipe(3 * width / 4, scrollbarLocation[1], 3 * width / 4 - destX + imaginaryScrollPosition, scrollbarLocation[1], elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME);
-            elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
+            animateSwipe(3 * width / 4, scrollbarLocation[1], 3 * width / 4 - destX + imaginaryScrollPosition, scrollbarLocation[1], elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME);
+            elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;;
         }
         if (destX < imaginaryScrollPosition) {
-            animateSwipe(width / 4, scrollbarLocation[1], width / 4 - destX + imaginaryScrollPosition, scrollbarLocation[1], elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME);
-            elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
+            animateSwipe(width / 4, scrollbarLocation[1], width / 4 - destX + imaginaryScrollPosition, scrollbarLocation[1], elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME);
+            elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;;
         }
         animateScrollbarScroll(destX, originalTime, elapsed - originalTime);
     }
 
     private void runRemoveDenomination() {
-        animateFingerTap(0, 0, elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME);
-        removeDenomination(elapsed + CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME);
-        elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
+        animateFingerTap(0, 0, elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME);
+        removeDenomination(elapsed + CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME);
+        elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;;
     }
 
     private void runClickNumber(int num) {
@@ -492,8 +373,8 @@ public class AdvancedVideoActivity extends AppCompatActivity {
         }
         int coords[] = new int[2];
         button.getLocationOnScreen(coords);
-        animateFingerTap(coords[0] + button.getWidth() / 2 - finger.getWidth() / 2, coords[1], elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME);
-        elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
+        animateFingerTap(coords[0] + button.getWidth() / 2 - finger.getWidth() / 2, coords[1], elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME);
+        elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;;
         clickNumPadButton(button, elapsed);
     }
 
@@ -501,8 +382,8 @@ public class AdvancedVideoActivity extends AppCompatActivity {
         View button = findViewById(R.id.back);
         int coords[] = new int[2];
         button.getLocationOnScreen(coords);
-        animateFingerTap(coords[0] + button.getWidth() / 2 - finger.getWidth() / 2, coords[1] - button.getWidth() / 2, elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME);
-        elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
+        animateFingerTap(coords[0] + button.getWidth() / 2 - finger.getWidth() / 2, coords[1] - button.getWidth() / 2, elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME);
+        elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;;
         clickNumPadButton(button, elapsed);
     }
 
@@ -510,26 +391,26 @@ public class AdvancedVideoActivity extends AppCompatActivity {
         View button = findViewById(R.id.check);
         int coords[] = new int[2];
         button.getLocationOnScreen(coords);
-        animateFingerTap(coords[0] + button.getWidth() / 2 - finger.getWidth() / 2, coords[1] - button.getWidth() / 2, elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME);
-        elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
+        animateFingerTap(coords[0] + button.getWidth() / 2 - finger.getWidth() / 2, coords[1] - button.getWidth() / 2, elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME);
+        elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;;
         clickNumPadButton(button, elapsed);
     }
 
     private void runSwitchToAddition() {
-        animateSwipe(width - finger.getWidth(), height / 4, 0, height / 4, elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME_CALC);
-        elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME_CALC;
+        animateSwipe(width - finger.getWidth(), height / 4, 0, height / 4, elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME_CALC);
+        elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME_CALC;
         changeToAddition(elapsed);
     }
 
     private void runSwitchToSubtraction() {
-        animateSwipe(0, height / 4, width - finger.getWidth(), height / 4, elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME_CALC);
-        elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME_CALC;;
+        animateSwipe(0, height / 4, width - finger.getWidth(), height / 4, elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME_CALC);
+        elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME_CALC;
         changeToSubtraction(elapsed);
     }
 
     private void runSwitchToMultiplication() {
-        animateSwipe(width / 2, 0, width / 2, height * 9 / 10, elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME_CALC);
-        elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME_CALC;;
+        animateSwipe(width / 2, 0, width / 2, height * 9 / 10, elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME_CALC);
+        elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME_CALC;
         changeToMultiplication(elapsed);
     }
 
@@ -537,8 +418,8 @@ public class AdvancedVideoActivity extends AppCompatActivity {
         ImageView button = findViewById(org.myoralvillage.cashcalculatormodule.R.id.clear_button);
         int coords[] = new int[2];
         button.getLocationOnScreen(coords);
-        animateFingerTap(coords[0] + button.getWidth() / 2 - finger.getWidth() / 2, coords[1]-25, elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME);
-        elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
+        animateFingerTap(coords[0] + button.getWidth() / 2 - finger.getWidth() / 2, coords[1]-25, elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME);
+        elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;
         pressClear(elapsed);
     }
 
@@ -546,8 +427,8 @@ public class AdvancedVideoActivity extends AppCompatActivity {
         ImageView button = findViewById(org.myoralvillage.cashcalculatormodule.R.id.calculate_button);
         int coords[] = new int[2];
         button.getLocationOnScreen(coords);
-        animateFingerTap(coords[0] + button.getWidth() / 2 - finger.getWidth() / 2, coords[1] - button.getWidth() / 2 - 30, elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME);
-        elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
+        animateFingerTap(coords[0] + button.getWidth() / 2 - finger.getWidth() / 2, coords[1] - button.getWidth() / 2, elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME);
+        elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;
         pressCalculate(elapsed);
     }
 
@@ -555,8 +436,8 @@ public class AdvancedVideoActivity extends AppCompatActivity {
         ImageView button = findViewById(org.myoralvillage.cashcalculatormodule.R.id.enter_history_button);
         int coords[] = new int[2];
         button.getLocationOnScreen(coords);
-        animateFingerTap(coords[0] + button.getWidth() / 2 - finger.getWidth() / 2, coords[1]-50, elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME);
-        elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
+        animateFingerTap(coords[0] + button.getWidth() / 2 - finger.getWidth() / 2, coords[1]-50, elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME);
+        elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;;
         pressEnterHistory(elapsed);
     }
 
@@ -564,8 +445,8 @@ public class AdvancedVideoActivity extends AppCompatActivity {
         ImageView button = findViewById(org.myoralvillage.cashcalculatormodule.R.id.right_history_button);
         int coords[] = new int[2];
         button.getLocationOnScreen(coords);
-        animateFingerTap(coords[0] + button.getWidth() / 2 - finger.getWidth() / 2, coords[1]-55, elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME);
-        elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
+        animateFingerTap(coords[0] + button.getWidth() / 2 - finger.getWidth() / 2, coords[1]-55, elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME);
+        elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;;
         pressNext(elapsed);
     }
 
@@ -573,22 +454,22 @@ public class AdvancedVideoActivity extends AppCompatActivity {
         ImageView button = findViewById(org.myoralvillage.cashcalculatormodule.R.id.left_history_button);
         int coords[] = new int[2];
         button.getLocationOnScreen(coords);
-        animateFingerTap(coords[0] + button.getWidth() / 2 - finger.getWidth() / 2, coords[1], elapsed, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME);
-        elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
+        animateFingerTap(coords[0] + button.getWidth() / 2 - finger.getWidth() / 2, coords[1], elapsed, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME);
+        elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;;
         pressPrev(elapsed);
     }
 
     private void runFadeOutAndIn() {
         AnimatorSet as = new AnimatorSet();
-        as.playSequentially(getFadeIn(black, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME), getFadeOut(black, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME));
+        as.playSequentially(getFadeIn(black, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME), getFadeOut(black, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME));
         as.setStartDelay(elapsed);
         animations.add(as);
-        elapsed += CashCalculatorConstants.ADV_VIDEO_FADE_TIME;
+        elapsed += CashCalculatorConstants.INTRO_VIDEO_FADE_TIME;
     }
 
     private void runFadeOut() {
-        animations.add(getFadeIn(black, CashCalculatorConstants.ADV_VIDEO_DURATION_TIME));
-        elapsed += CashCalculatorConstants.ADV_VIDEO_ELAPSED_TIME;
+        animations.add(getFadeIn(black, CashCalculatorConstants.INTRO_VIDEO_DURATION_TIME));
+        elapsed += CashCalculatorConstants.INTRO_VIDEO_ELAPSED_TIME;
     }
 
     private void runExit() {
@@ -604,11 +485,42 @@ public class AdvancedVideoActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(AdvancedVideoActivity.this, MainActivity.class);
-                intent.putExtra("currencyCode", currencyName);
+
+//                AlertDialog.Builder builder = new AlertDialog.Builder(ZeroVideoActivity_3.this);
+//
+//                // Set the message show for the Alert time
+//                builder.setMessage("Do you want to exit ?" + pageNumber);
+//
+//                // Set Alert Title
+//                builder.setTitle("Alert !");
+//
+//                // Set Cancelable false for when the user clicks on the outside the Dialog Box then it will remain show
+//                builder.setCancelable(false);
+//
+//                // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
+//                builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+//                    // When the user click yes button then app will close
+//                    finish();
+//
+//                });
+//
+//                // Set the Negative button with No name Lambda OnClickListener method is use of DialogInterface interface.
+//                builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> {
+//                    // If user click no then dialog box is canceled.
+//                    dialog.cancel();
+//                });
+//
+//                // Create the Alert dialog
+//                AlertDialog alertDialog = builder.create();
+//                // Show the Alert Dialog box
+//                alertDialog.show();
+
+                Intent intent = new Intent(ZeroVideoActivity_5.this, MainActivity.class);
+                intent.putExtra("currencyName", currencyName);
                 intent.putExtra("numericMode", numericMode);
                 startActivity(intent);
                 finish();
+
             }
         }, time);
     }
@@ -802,15 +714,17 @@ public class AdvancedVideoActivity extends AppCompatActivity {
     }
 
     private boolean usesDecimal() {
-        if (getDenomination(numDenominations - 1).getValue().compareTo(new BigDecimal("1")) >= 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return false;
+//        if (getDenomination(numDenominations - 1).getValue().compareTo(new BigDecimal("1")) >= 0) {
+//            return false;
+//        } else {
+//            return true;
+//        }
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return true;
     }
+
 }

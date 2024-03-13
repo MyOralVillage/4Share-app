@@ -429,7 +429,7 @@ public class NumericVideoActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Intent intent = new Intent(NumericVideoActivity.this, TutorialActivity.class);
-                intent.putExtra("currencyName", currencyName);
+                intent.putExtra("currencyCode", currencyName);
                 intent.putExtra("numericMode", numericMode);
                 startActivity(intent);
                 finish();

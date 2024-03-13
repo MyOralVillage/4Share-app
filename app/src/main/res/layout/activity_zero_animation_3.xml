@@ -9,12 +9,22 @@
     android:orientation = "horizontal"
     tools:context=".TutorialActivity"
     android:background="@drawable/metallic_surface">
+  <ImageView
+      android:id="@+id/finger"
+      android:layout_width="83dp"
+      android:layout_height="239dp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:srcCompat="@drawable/pointing_hand3"
+      android:elevation="20dp"/>
 
-    <androidx.appcompat.widget.AppCompatButton
+
+   <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/intro_video"
         android:layout_width="190dp"
         android:layout_height="134dp"
-        android:background="@drawable/intro_video_icon">
+        android:background="@drawable/intro_video_icon"
+       >
 
     </androidx.appcompat.widget.AppCompatButton>
 
@@ -35,10 +45,12 @@
         android:background="@drawable/third_video_icon">
     </androidx.appcompat.widget.AppCompatButton>
 
+
 <!--    <ImageView-->
 <!--        android:id="@+id/goto_main"-->
 <!--        android:layout_width="80dp"-->
 <!--        android:layout_height="80dp"-->
 <!--        app:srcCompat="@drawable/forward_arrow" />-->
+
 
 </LinearLayout>

@@ -7,9 +7,23 @@
     tools:context=".MainActivity">
 
     <fragment
-        android:name="org.myoralvillage.cashcalculatormodule.fragments.CashCalculatorFragment"
         android:id="@+id/CountingTableFragment"
+        android:name="org.myoralvillage.cashcalculatormodule.fragments.CashCalculatorFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+
+    <ImageView
+        android:id="@+id/gototutorial"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="right"
+        android:layout_marginStart="698dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/play_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
